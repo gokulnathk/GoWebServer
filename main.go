@@ -38,7 +38,7 @@ func (this *MyHandler) ServeHTTP (w http.ResponseWriter, r *http.Request) {
   }
 }
 
-func main () {
-  http.Handle("/", new(MyHandler))
-  http.ListenAndServe(":8880", nil)
-}
+// func main () {
+//   http.Handle("/", new(MyHandler))
+//   http.ListenAndServe(":8880", nil)
+// }
