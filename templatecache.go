@@ -6,7 +6,6 @@ import (
   "text/template"
   "bufio"
   "strings"
-  "fmt"
 )
 
 func main() {
@@ -55,7 +54,6 @@ func serveStaticResource(w http.ResponseWriter, r *http.Request) {
     w.Header().Add("Content-Type", contentType)
     bufferedReader.WriteTo(w)
   } else {
-    fmt.Println(err)
     w.WriteHeader(404)
   }
 }
