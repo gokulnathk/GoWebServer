@@ -6,6 +6,7 @@ import (
   "text/template"
   "bufio"
   "strings"
+  "fmt"
 )
 
 func main() {
@@ -23,13 +24,14 @@ func main() {
 
   http.HandleFunc("/images/", serveStaticResource)
   http.HandleFunc("/css/", serveStaticResource)
+  http.HandleFunc("/js/", serveStaticResource)
 
   http.ListenAndServe(":8800", nil)
 }
 
 
 func serveStaticResource(w http.ResponseWriter, r *http.Request) {
-  path := "public_html/" + r.URL.Path
+  path := "public_html/html" + r.URL.Path
   f, err := os.Open(path)
 
   if err == nil {
@@ -53,6 +55,7 @@ func serveStaticResource(w http.ResponseWriter, r *http.Request) {
     w.Header().Add("Content-Type", contentType)
     bufferedReader.WriteTo(w)
   } else {
+    fmt.Println(err)
     w.WriteHeader(404)
   }
 }
