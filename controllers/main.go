@@ -6,30 +6,22 @@ import (
 	"os"
 	"strings"
 	"text/template"
-	"webserver/viewmodels"
+
+	"github.com/gorilla/mux"
 )
 
-/* Register... function to register the HTTP request */
+//Register func to register the HTTP request
 func Register(templates *template.Template) {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		requestedFile := r.URL.Path[1:]
-		template := templates.Lookup(requestedFile + ".html")
+	router := mux.NewRouter()
+	ic := new(indexController)
+	ic.templates = templates.Lookup("index.html")
+	router.HandleFunc("/index", ic.get)
 
-		var context interface{}
+	bc := new(brandsController)
+	bc.templates = templates.Lookup("brands.html")
+	router.HandleFunc("/brands/{id}", bc.get)
 
-		switch requestedFile {
-		case "index":
-			context = viewmodels.GetIndex()
-		case "brands":
-			context = viewmodels.GetBrands()
-		}
-
-		if template != nil {
-			template.Execute(w, context)
-		} else {
-			w.WriteHeader(404)
-		}
-	})
+	http.Handle("/", router)
 
 	http.HandleFunc("/images/", serveStaticResource)
 	http.HandleFunc("/css/", serveStaticResource)
