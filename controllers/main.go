@@ -19,7 +19,7 @@ func Register(templates *template.Template) {
 
 	bc := new(brandsController)
 	bc.templates = templates.Lookup("brands.html")
-	router.HandleFunc("/brands/{id}", bc.get)
+	router.HandleFunc("/brands", bc.get)
 
 	http.Handle("/", router)
 

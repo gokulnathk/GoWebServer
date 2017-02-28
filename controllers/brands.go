@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"GoWebServer/controllers/util"
 	"GoWebServer/viewmodels"
 	"net/http"
 	"text/template"
@@ -13,7 +14,9 @@ type brandsController struct {
 func (brands *brandsController) get(w http.ResponseWriter, r *http.Request) {
 	bm := viewmodels.GetBrands()
 	w.Header().Add("content-type", "text/html")
-	brands.templates.Execute(w, bm)
+	responseWriter := util.GetResponseWriter(w, r)
+	defer responseWriter.Close()
+	brands.templates.Execute(responseWriter, bm)
 }
 
 type brandController struct {
