@@ -21,6 +21,10 @@ func Register(templates *template.Template) {
 	bc.templates = templates.Lookup("brands.html")
 	router.HandleFunc("/brands", bc.get)
 
+	rc := new(registerController)
+	rc.templates = templates.Lookup("register.html")
+	router.HandleFunc("/register", rc.handle)
+
 	http.Handle("/", router)
 
 	http.HandleFunc("/images/", serveStaticResource)
